@@ -32,6 +32,20 @@ class ProfileGrid(CMSPlugin):
     def __unicode__(self):
         return u'{}'.format(self.title)
 
+    def post_copy(self, old_instance, new_old_ziplist):
+        """
+        Custom actions that must be performed for copied ProfileGrid plugins:
+        - copy profiles
+        """
+
+        # old_instance.profilegrid will point to self
+        old_profile_grid = ProfileGrid.objects.get(id=old_instance.id)
+
+        for profile in old_profile_grid.profile_set.all():
+            profile.id = None
+            profile.profile_plugin = self
+            profile.save()
+
 
 class Profile(models.Model):
     profile_plugin = models.ForeignKey(ProfileGrid, null=False, blank=False)
@@ -88,12 +102,30 @@ class ProfilePromoGrid(CMSPlugin):
 
     def save(self, *args, **kwargs):
         ret_value = super(ProfilePromoGrid, self).save(*args, **kwargs)
-        self.selectedprofile_set.all().delete()
-        if hasattr(self, 'unsaved_selected_profiles'):
-            for unsaved_selected_profile in self.unsaved_selected_profiles:
-                unsaved_selected_profile.promo_grid = self
-                unsaved_selected_profile.save()
+        self._save_selected_profiles()
         return ret_value
+
+    def _save_selected_profiles(self):
+        if not hasattr(self, 'unsaved_selected_profiles'):
+            return
+        self.selectedprofile_set.all().delete()
+        for unsaved_selected_profile in self.unsaved_selected_profiles:
+            unsaved_selected_profile.promo_grid = self
+            unsaved_selected_profile.save()
+
+    def post_copy(self, old_instance, new_old_ziplist):
+        """
+        Custom actions that must be performed for copied ProfilePromoGrid plugins:
+        - copy profile selection
+        """
+
+        # old_instance.profilepromogrid will point to self
+        old_profile_promo_grid = ProfilePromoGrid.objects.get(id=old_instance.id)
+
+        for selected_profile in old_profile_promo_grid.selectedprofile_set.all():
+            selected_profile.id = None
+            selected_profile.promo_grid = self
+            selected_profile.save()
 
 
 class SelectedProfile(models.Model):

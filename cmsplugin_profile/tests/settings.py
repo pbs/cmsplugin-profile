@@ -15,12 +15,12 @@ INSTALLED_APPS = [
     'django.contrib.admin',
 ]
 
-CMS_TEMPLATES = []
+CMS_TEMPLATES = [('cms/dummy.html', 'cms/dummy.html')]
 CMS_MODERATOR = True
 CMS_PERMISSION = True
 STATIC_ROOT = '/static/'
 STATIC_URL = '/static/'
-ROOT_URLCONF = 'cmsplugin_profile.urls'
+ROOT_URLCONF = 'cmsplugin_profile.tests.urls'
 
 TEMPLATES = [
     {
