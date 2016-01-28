@@ -4,7 +4,7 @@ from django.core.exceptions import ValidationError
 from cms_blogger.widgets import ToggleWidget
 
 from .models import Profile, ProfileLink, ProfileGrid, SelectedProfile, ProfilePromoGrid
-from .settings import MAX_PROFILE_LINKS, MAX_PROMO_PROFILES
+from .settings import MAX_PROFILE_LINKS, MIN_PROMO_PROFILES, MAX_PROMO_PROFILES
 
 
 class ProfileForm(forms.ModelForm):
@@ -182,6 +182,7 @@ class ProfileGridPromoForm(forms.ModelForm):
             self.selected_profiles = []
             self.all_profiles = []
         self.maximum_selection = MAX_PROMO_PROFILES
+        self.minimum_selection = MIN_PROMO_PROFILES
 
     def _get_changed_grid(self):
         if not self.request:
