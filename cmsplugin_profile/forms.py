@@ -215,6 +215,16 @@ class ProfileGridPromoForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super(ProfileGridPromoForm, self).clean()
+        selected_profiles = len(cleaned_data.get('profiles_field', []))
+        if selected_profiles < MIN_PROMO_PROFILES or selected_profiles > MAX_PROMO_PROFILES:
+            if MIN_PROMO_PROFILES == MAX_PROMO_PROFILES:
+                raise ValidationError(
+                    "You must select {} profiles. You have selected {}!"
+                    .format(MIN_PROMO_PROFILES, selected_profiles))
+            else:
+                raise ValidationError(
+                    "You must select between {} and {} profiles. You have selected {}!"
+                    .format(MIN_PROMO_PROFILES, MAX_PROMO_PROFILES, selected_profiles))
         return cleaned_data
 
     def save(self, commit=True):
