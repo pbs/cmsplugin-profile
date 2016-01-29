@@ -943,12 +943,46 @@ $grid: ".og-grid";
             }
         }
     }
-    @media (min-width: 768px) and (max-width: 959px) {
+    @media (width: 1024px) {
         body {
             &.studio, &:not(.studio) {
-                .span8.page-content, .span12.page-content {
+                .span8.page-content {
                     .pbs-profile-promo {
-                        .og-grid {
+                        .og-grid:not(.og-4-items) {
+                            li, li > a {
+                                width: 309px;
+                                height: 309px;
+                                line-height: 307px;
+                            }
+                            li:nth-child(3n) {
+                                margin-right: 0;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    body {
+        &.studio, &:not(.studio) {
+            .span8.page-content, .span12.page-content {
+                .pbs-profile-promo {
+                    .og-grid:not(.og-4-items) {
+                        @media (width: 768px) {
+                            li, li > a {
+                                width: 234px;
+                                height: 234px;
+                                line-height: 232px;
+                            }
+                            li {
+                                margin-right: 9px;
+
+                                &:nth-child(3n) {
+                                    margin-right: 0;
+                                }
+                            }    
+                        }
+                        @media (min-width: 769px) and (max-width: 959px) {
                             li, li > a {
                                 width: 232px;
                                 height: 232px;
@@ -960,8 +994,8 @@ $grid: ".og-grid";
                                 &:nth-child(3n) {
                                     margin-right: 0;
                                 }
-                            }    
-                        }
+                            } 
+                        } 
                     } 
                 }
             }
@@ -976,8 +1010,155 @@ $grid: ".og-grid";
                         height: 405px;
                         line-height: 403px;
                     } 
+
+                    &.og-4-items {
+                        li, li > a {
+                            width: 301px;
+                            height: 301px;
+                            line-height: 299px;
+                        } 
+                    }
                 }    
             }
+            .span8.page-content .pbs-profile-promo {
+                .og-grid:not(.og-4-items) {
+                    li, li > a {
+                        width: 287px;
+                        height: 287px;
+                        line-height: 285px;
+                    }
+                }    
+            }
+        }
+    }
+    @media (min-width: 1280px) and (max-width: 1290px) {
+        body.studio {
+            .span8.page-content .pbs-profile-promo {
+                .og-grid:not(.og-4-items) {
+                    li, li > a {
+                        width: 277px;
+                        height: 277px;
+                        line-height: 275px;
+                    }
+                    li:nth-child(3n) {
+                        margin-right: 0;
+                    }
+                }
+            }
+            .span12.page-content .pbs-profile-promo {
+                .og-grid {
+                    li, li > a {
+                        width: 392px;
+                        height: 392px;
+                        line-height: 390px;
+                    } 
+
+                    &.og-4-items {
+                        li, li > a {
+                            width: 291px;
+                            height: 291px;
+                            line-height: 289px;
+                        } 
+                    }
+                }    
+            }
+        }
+    }
+    body.studio {
+        .span8.page-content .pbs-profile-promo {
+            .og-grid.og-4-items {
+                @media (min-width: 1025px) and (max-width: 1279px) {
+                    li, li > a {
+                        width: 142px;
+                        height: 142px;
+                        line-height: 140px;
+                    }
+                    li {
+                        margin-right: 9px;
+
+                        &:nth-child(4n) {
+                            margin-right: 0;
+                        }
+                    }
+                }
+           
+                @media (min-width: 961px) and (max-width: 1023px) {
+                    li, li > a {
+                        width: 214px;
+                        height: 214px;
+                        line-height: 212px;
+                    }
+                    li {
+                        margin-right: 9px;
+
+                        &:nth-child(4n) {
+                            margin-right: 0;
+                        }
+                    }
+                }
+                @media (width: 960px) {
+                    li, li > a {
+                        width: 221px;
+                        height: 221px;
+                        line-height: 219px;
+                    }
+                    li {
+                        margin-right: 9px;
+
+                        &:nth-child(4n) {
+                            margin-right: 0;
+                        }
+                    }
+                }
+            }
+        }
+        .span12.page-content .pbs-profile-promo {
+            .og-grid {
+                @media (min-width: 1024px) and (max-width: 1279px) {
+                    &.og-4-items {
+                        li, li > a {
+                            width: 229px;
+                            height: 229px;
+                            line-height: 227px;
+                        }
+                        li {
+                            margin-right: 9px;
+
+                            &:nth-child(4n) {
+                                margin-right: 0;
+                            }
+                        } 
+                    }
+                }
+               @media (min-width: 961px) and (max-width: 1023px) {
+                    li, li > a {
+                        width: 214px;
+                        height: 214px;
+                        line-height: 212px;
+                    }
+                    li {
+                        margin-right: 9px;
+
+                        &:nth-child(4n) {
+                            margin-right: 0;
+                        }
+                    }
+                }
+                @media (width: 960px) {
+                    li, li > a {
+                        width: 221px;
+                        height: 221px;
+                        line-height: 219px;
+                    }
+                    li {
+                        margin-right: 9px;
+
+                        &:nth-child(4n) {
+                            margin-right: 0;
+                        }
+                    }
+                }
+            }    
         }
     }
 }
