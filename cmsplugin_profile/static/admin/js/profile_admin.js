@@ -466,6 +466,9 @@
             }
         });
 
+
+	$('[id^=id_profile_set-][id$=-DELETE]').prop('checked', false);
+
         setLimiter();
         attachEvents();
 
