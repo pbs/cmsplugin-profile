@@ -2,6 +2,8 @@ from collections import namedtuple
 
 from django import forms
 from django.core.exceptions import ValidationError
+from django.core.urlresolvers import reverse
+from django.utils.safestring import mark_safe
 from cms_blogger.widgets import ToggleWidget
 
 from .models import Profile, ProfileLink, ProfileGrid, SelectedProfile, ProfilePromoGrid
@@ -12,9 +14,10 @@ from .settings import (
 
 PromoDependant = namedtuple('PromoDependant', ['promo', 'remaining_profiles', 'deleted_profiles'])
 PROFILE_DEL_WARN = ("Deleting the {profiles} profile(s) would make the Promo Grid "
-                    "{promo_title} on page {promo_page} have less than {min_nr} profiles, "
-                    "making it invalid. Please save your other changes, change the selected "
-                    "profiles in the Promo Grid and then try to delete these profile(s).")
+                    "{promo} have less than {min_nr} profiles, "
+                    "making it invalid.")
+PROFILE_DEL_WARN_EXTRA = ("Please save your other changes, change the affected Promo Grid(s) "
+                          "and then try to delete these profile(s).")
 
 
 class ProfileForm(forms.ModelForm):
@@ -150,23 +153,28 @@ class ProfileFormSet(forms.models.BaseInlineFormSet):
             if len(dep.remaining_profiles) < HARD_MIN_PROMO_PROFILES:
                 validation_errors.append(_make_profile_delete_warn(dep))
         if validation_errors:
+            validation_errors.append(PROFILE_DEL_WARN_EXTRA)
             raise ValidationError(validation_errors)
 
 
 def _make_profile_delete_warn(promo_info):
     def _format_profile_names(profiles):
-        return "'" + "','".join([
-            p.title if p.title else "'" + p.description[:10] + "'"
-            for p in profiles]) + "'"
+        return "<b>" + "</b>, <b>".join([
+            p.title if p.title else "'" + p.description[:10] + "..'"
+            for p in profiles]) + "</b>"
 
-    def _format_page(page):
-        return "{} (id:{})".format(page.get_title(), page.id)
+    def _format_promo(promo):
+        title = promo.title or "with id:{}".format(promo.id)
+        return "<b>{}</b> on page <a href='{}' target='_blank'>{}</a>".format(
+            title,
+            reverse('admin:cms_page_change', args=[promo.page.id]),
+            promo.page.get_title() or promo.page.id
+        )
 
-    return PROFILE_DEL_WARN.format(
+    return mark_safe(PROFILE_DEL_WARN.format(
         profiles=_format_profile_names(promo_info.deleted_profiles),
-        promo_title=promo_info.promo.title or "with id:{}".format(promo_info.promo.id),
-        promo_page=_format_page(promo_info.promo.page),
-        min_nr=HARD_MIN_PROMO_PROFILES)
+        promo=_format_promo(promo_info.promo),
+        min_nr=HARD_MIN_PROMO_PROFILES))
 
 
 class ProfileGridForm(forms.ModelForm):
