@@ -385,7 +385,12 @@ $grid: ".og-grid";
                         width: 301px;
                         height: 301px;
                         line-height: 299px;
-                        
+
+                        @media (min-width: 1280px) and (max-width: 1290px) {
+                            width: 291px;
+                            height: 291px;
+                            line-height: 289px;
+                        }
                         @media (min-width: 1024px) and (max-width: 1279px) {
                             width: 309px;
                             height: 309px;
@@ -508,19 +513,24 @@ $grid: ".og-grid";
                 li {
                     &,
                     & > a {
-                        width: 309px;
-                        height: 309px;
-                        line-height: 307px;
+                        width: 212px;
+                        height: 212px;
+                        line-height: 210px;
 
-                        @media (min-width: 1280px) {
-                            width: 287px;
-                            height: 287px;
-                            line-height: 285px;
+                        @media (min-width: 1280px) and (max-width: 1290px) {
+                            width: 205px;
+                            height: 205px;
+                            line-height: 203px;
                         }
-                        @media (max-width: 1279px) and (min-width: 1024px) {
-                            width: 309px;
-                            height: 309px;
-                            line-height: 307px;
+                        @media (max-width: 1279px) and (min-width: 1025px) {
+                            width: 197px;
+                            height: 197px;
+                            line-height: 195px;
+                        }
+                        @media (width: 1024px) {
+                            width: 227px;
+                            height: 227px;
+                            line-height: 225px;
                         }
                         @media (min-width: 961px) and (max-width: 1023px) {
                             width: 289px;
@@ -550,20 +560,17 @@ $grid: ".og-grid";
                             margin-right: 0 !important;   
                         }
                     }
-                   
-                    &:nth-child(4n) {
+
+                    @media (min-width: 960px) and (max-width: 1279px) {
                         margin-right: 9px;
-                    }
-                    &:nth-child(3n) {
-                        margin-right: 0;
-                    }
-                    @media (min-width: 1025px) and (max-width: 1279px) {
-                        margin-right: 0;
-                        &:nth-child(2n+1) {
-                            margin-right: 13px;
-                        }
-                        &:nth-child(4n) {
+
+                        &:nth-child(3n) {
                             margin-right: 0;
+                        }
+                    }
+                    @media (width: 1024px) {
+                        &:nth-child(3n) {
+                            margin-right: 9px;
                         }
                     }
                     @media (min-width: 640px) and (max-width: 959px) {
