@@ -69,10 +69,11 @@ class ProfileGridPromoPlugin(CMSPluginBase):
         ("Featured Profiles", {
             'fields': ('profiles_field', ),
             'description':
-                _(u"Between {} and {} profiles will be featured in this promo, marked by the"
-                  " border around the thumbnails. Click on a thumbnail to add"
-                  " or remove it from the group of featured profiles."
-                  .format(MIN_PROMO_PROFILES, MAX_PROMO_PROFILES)),
+                _(u"Profile entries can be selected to be featured in a Profile"
+                  " Promo plugin. You can select a maximum of {} minimum of {}"
+                  " entries to feature. Click on a thumbnail to add or remove"
+                  " it from the group of featured profiles."
+                  .format(MAX_PROMO_PROFILES, MIN_PROMO_PROFILES)),
         })
     )
 

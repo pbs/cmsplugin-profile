@@ -15,10 +15,10 @@
     </div>
     <div class="row-fluid">
         <div class="span12">
-            <ul id="profile_grid_promo{{ rnd }}" class="og-grid">
+            <ul id="profile_grid_promo{{ rnd }}" class="og-grid {% if profiles|length_is:'4' %}og-4-items{% endif %}">
             {% for profile in profiles %}
                     <li>
-                        <a href="{{ profile_grid_link }}">
+                        <a href="{{ profile.call_to_action_url|default:profile_grid_link }}">
                             <img src="{{profile.thumbnail_image|filerfile}}" alt="{{profile.title}}"/>
                             <h2>{{profile.title}}</h2>
                         </a>
