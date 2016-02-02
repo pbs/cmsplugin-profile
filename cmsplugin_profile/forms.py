@@ -13,10 +13,9 @@ from .settings import (
 
 
 PromoDependant = namedtuple('PromoDependant', ['promo', 'remaining_profiles', 'deleted_profiles'])
-PROFILE_DEL_WARN = ("Deleting the {profiles} profile(s) would make the Promo Grid "
-                    "{promo} have less than {min_nr} profiles, "
-                    "making it invalid.")
-PROFILE_DEL_WARN_EXTRA = ("Please save your other changes, change the affected Promo Grid(s) "
+PROFILE_DEL_WARN = ("Deleting the profile(s): {profiles} would make the Promo Grid "
+                    "{promo} have less than {min_nr} profiles selected.")
+PROFILE_DEL_WARN_EXTRA = ("Please change the Promo Grid(s) "
                           "and then try to delete these profile(s).")
 
 
@@ -154,7 +153,7 @@ class ProfileFormSet(forms.models.BaseInlineFormSet):
                 validation_errors.append(_make_profile_delete_warn(dep))
         if validation_errors:
             validation_errors.append(PROFILE_DEL_WARN_EXTRA)
-            raise ValidationError(validation_errors)
+            raise ValidationError(mark_safe('<br>'.join(validation_errors)))
 
 
 def _make_profile_delete_warn(promo_info):
