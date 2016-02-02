@@ -4,5 +4,15 @@
 {{ block.super }}
 <h4 class="header smaller lighter blue block">Profile Order</h4>
 <p>Click the + icon to add new profiles. Click and drag the profile thumbnail to change the order the profiles appear in the grid.</p>
+<script type="text/javascript">
+(function($, ProfilePlugin) {
+	$(document).ready(function() {
+		profile_admin = new ProfilePlugin.ProfileGridAdmin({
+			save_rejected : {% if errors %}true{% else %}false{% endif%}
+		});
+		profile_admin.init();
+	});
+})(jQuery || django.jQuery, ProfilePlugin);
+</script>
 {% endblock %}
 

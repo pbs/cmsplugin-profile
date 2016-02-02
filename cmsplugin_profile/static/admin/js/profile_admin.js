@@ -1,4 +1,9 @@
-(function($) {
+(function(window, $) {
+    if (typeof ProfilePlugin === 'undefined') {
+        window.ProfilePlugin = {};
+    }
+
+ProfilePlugin.ProfileGridAdmin = function(config) {
     var initial_title,
         initial_description,
         initial_show_title,
@@ -7,7 +12,8 @@
         form_id,
         all_profiles_initial_data, // profile-prefix -> custom-profile-data
         all_profiles_changes_flag, // profile-prefix -> flag if profile has changes
-        current_profile_value_before_edit; // input-id -> [input_type, saved_custom_data]
+        current_profile_value_before_edit, // input-id -> [input_type, saved_custom_data]
+        save_rejected = config.save_rejected;
 
     function clear_data_for_profile(profile_prefix) {
         delete all_profiles_changes_flag[profile_prefix];
@@ -27,7 +33,7 @@
             current_description = $("#id_description").val(),
             current_show_title = $("#id_show_title_on_thumbnails").prop('checked'),
 
-            has_unsaved_changes = profile_added || profile_deleted ||
+            has_unsaved_changes = save_rejected || profile_added || profile_deleted ||
                 current_title != initial_title ||
                 current_description != initial_description ||
                 current_show_title != initial_show_title ||
@@ -480,11 +486,13 @@
 
         setLimiter();
         attachEvents();
-
+        update_show_unsaved_warning();
     }
 
-    $(document).ready(function() {
-        // init all functions
-        init();
-    });
-})(jQuery || django.jQuery);
+    return {
+	init: init
+    };
+
+}
+})(window, jQuery);
+
