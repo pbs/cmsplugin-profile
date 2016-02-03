@@ -1,6 +1,21 @@
 CHANGELOG
 =========
 
+Revision c2183c9 (03.02.2016, 07:39 UTC)
+----------------------------------------
+
+* LUN-2829
+
+  * Create the required many-to-one relations when plugins are copied.
+  * Handle workflows that do not create the attribute unsaved_select_profiles.
+  * Test for plugin copying.
+
+* LUN-2869
+
+  * firefox issue fixed on Studio 2
+
+No other commits.
+
 Revision e3cd839 (14.01.2016, 14:48 UTC)
 ----------------------------------------
 
