@@ -46,6 +46,11 @@ class ProfileGrid(CMSPlugin):
             profile.profile_plugin = self
             profile.save()
 
+    def get_warning_on_delete(self):
+        return "Deleting this Profile Grid will also delete the Promo Grid(s): {}".format(
+            ", ".join([promo.short_info for promo in self.profilepromogrid_set.all()])
+        )
+
 
 class Profile(models.Model):
     profile_plugin = models.ForeignKey(ProfileGrid, null=False, blank=False)
@@ -126,6 +131,15 @@ class ProfilePromoGrid(CMSPlugin):
             selected_profile.id = None
             selected_profile.promo_grid = self
             selected_profile.save()
+
+    @property
+    def short_info(self):
+        if self.title:
+            return self.title
+        elif len(self.call_to_action_text) > 10:
+            return u'Call to action:"{}.."'.format(self.call_to_action_text[:10])
+        else:
+            return self.call_to_action_text
 
 
 class SelectedProfile(models.Model):

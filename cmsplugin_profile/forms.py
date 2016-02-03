@@ -133,6 +133,16 @@ class ProfileFormSet(forms.models.BaseInlineFormSet):
         if not self.deleted_forms:
             return
 
+        def _add_del_error(form, promo, extra_profiles):
+            if extra_profiles:
+                if not hasattr(form, 'delete_errors_with_other'):
+                    form.delete_errors_with_other = []
+                form.delete_errors_with_other.append(promo)
+            else:
+                if not hasattr(form, 'delete_errors_alone'):
+                    form.delete_errors_alone = []
+                form.delete_errors_alone.append(promo)
+
         dependent_promos = [
             PromoDependant(
                 promo=promo,
@@ -146,14 +156,16 @@ class ProfileFormSet(forms.models.BaseInlineFormSet):
                 if profile.id in dep.remaining_profiles:
                     dep.remaining_profiles.remove(profile.id)
                     dep.deleted_profiles.append(profile)
+        created_invalid_promos = False
+        for form in self.forms:
+            profile = form.instance
+            for dep in dependent_promos:
+                if profile in dep.deleted_profiles and len(dep.remaining_profiles) < HARD_MIN_PROMO_PROFILES:
+                    created_invalid_promos = True
+                    _add_del_error(form, dep.promo, len(dep.deleted_profiles) > 1)
 
-        validation_errors = []
-        for dep in dependent_promos:
-            if len(dep.remaining_profiles) < HARD_MIN_PROMO_PROFILES:
-                validation_errors.append(_make_profile_delete_warn(dep))
-        if validation_errors:
-            validation_errors.append(PROFILE_DEL_WARN_EXTRA)
-            raise ValidationError(mark_safe('<br>'.join(validation_errors)))
+        if created_invalid_promos:
+            raise ValidationError("See each profile for information.")
 
 
 def _make_profile_delete_warn(promo_info):
