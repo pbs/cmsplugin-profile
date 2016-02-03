@@ -2,22 +2,12 @@
 <div class="ui-widget inline-related{% if forloop.last %} empty-form last-related{% endif %}{% if instance.thumbnail_image.url %} complete {%endif%}{% if form.delete_errors_alone or form.delete_errors_with_other %} has-errors{% endif %}"
 	id="{{ form.prefix }}{% if forloop.last %}-empty{% endif %}" {% if instance.thumbnail_image.url %}style="background: #efefef url('{{ instance.thumbnail_image.url }}') no-repeat center;background-size: contain;"{% endif %}>
 	<div class="profile-item-actions">
-		{% if form.delete_errors_alone or form.delete_errors_with_other %}
-		<ul class="profile_errors">
-			{% if form.delete_errors_alone %}
-			<li>Deleting this profile would invalidate the Promo Grid(s):
-				{% for promo in form.delete_errors_alone %}<a href="{% url 'admin:cms_page_change' promo.page.id %}">{{ promo }}</a>{% endfor %}</li>
-			{% endif %}
-			{% if form.delete_errors_with_other %}
-			<li>Deleting this profile (along with others) would invalidate the Promo Grid(s):
-				{% for promo in form.delete_errors_with_other %}<a href="{% url 'admin:cms_page_change' promo.page.id %}">{{ promo }}</a>{% endfor %}</li>
-			{% endif %}
-		</ul>
-		{% endif %}
 		<a class="edit-profile-item" data-profile-id-prefix="{{form.prefix}}" href="#"><span class="inline-edit ace-icon fa fa-pencil" unselectable="on"></span></a>
-		<a class="delete-profile-item" data-profile-id="{{instance.id}}"
-		data-profile-id-prefix="{{form.prefix}}" href="#">
-		<span class="inline-edit ace-icon fa fa-times" unselectable="on"></span>
+		<a class="delete-profile-item" data-profile-id="{{instance.id}}" data-profile-id-prefix="{{form.prefix}}" href="#"><span class="inline-edit ace-icon fa fa-times" unselectable="on"></span>
+		</a>
+		{% if form.delete_errors_alone or form.delete_errors_with_other %}
+		<span class="message-profile-item" data-profile-id="21" data-profile-id-prefix="profile_set-0" data-rel="popover" data-trigger="click" data-placement="right" data-content='<ul class="profile-errors list-unstyled">{% if form.delete_errors_alone %}<li>Deleting this profile would invalidate the Promo Grid(s):<ul>{% for promo in form.delete_errors_alone %}<li><a href="{% url 'admin:cms_page_change' promo.page.id %}">{{ promo }}</a></li>{% endfor %}</ul></li>{% endif %}{% if form.delete_errors_with_other %}<li>Deleting this profile (along with others) would invalidate the Promo Grid(s):<ul>{% for promo in form.delete_errors_with_other %}<li><a href="{% url 'admin:cms_page_change' promo.page.id %}" target="_blank">{{ promo }}</a></li>{% endfor %}</ul></li>{% endif %}</ul>' data-original-title="" data-html="true" title="">Click to see details.</span>
+		{% endif %}
 	</a>
 	</div>
 	<div>

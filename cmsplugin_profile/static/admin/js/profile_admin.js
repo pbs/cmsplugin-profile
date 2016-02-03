@@ -459,14 +459,17 @@ ProfilePlugin.ProfileGridAdmin = function(config) {
         all_profiles_initial_data = {}, // profile-prefix -> custom-profile-data
         all_profiles_changes_flag = {}, // profile-prefix -> flag if profile has changes
         current_profile_value_before_edit = {}, // input-id -> [input_type, saved_custom_data]
-	error_lists = $('.errorlist'),
-	first_list = error_lists.first();
+    	error_lists = $('.errorlist'),
+    	first_list = error_lists.first();
 
 
         //make entire grid sortable
         $(".grid-list").sortable({
             items: "> .inline-related",
             cancel: ".edit-mode",
+            start: function( event, ui ) {
+                $('[data-rel="popover"]').popover('hide');
+            },
             update: function(event, ui) {
                 $('.order_field input').each(function(i) {
                     $(this).attr('value', i + 1)
@@ -474,23 +477,31 @@ ProfilePlugin.ProfileGridAdmin = function(config) {
             }
         });
 
-	// Add all errors to the first list
-	error_lists.each(function(index) {
-	    if (index > 0) {
-		first_list.append($(this).html());
-		$(this).html("");
-	    }
-	});
+        $(document).off('click').on('click', 'body', function (e) {
+            //did not click a popover toggle or popover
+            if ($(e.target).data('rel') !== 'popover'
+                && $(e.target).parents('.popover.in').length === 0) { 
+                $('[data-rel="popover"]').popover('hide');
+            }
+        });
 
-	$('[id^=id_profile_set-][id$=-DELETE]').prop('checked', false);
+    	// Add all errors to the first list
+    	error_lists.each(function(index) {
+    	    if (index > 0) {
+    		first_list.append($(this).html());
+    		$(this).html("");
+    	    }
+    	});
 
-        setLimiter();
-        attachEvents();
-        update_show_unsaved_warning();
-    }
+    	$('[id^=id_profile_set-][id$=-DELETE]').prop('checked', false);
 
-    return {
-	init: init
+            setLimiter();
+            attachEvents();
+            update_show_unsaved_warning();
+        }
+
+        return {
+    	init: init
     };
 
 }
