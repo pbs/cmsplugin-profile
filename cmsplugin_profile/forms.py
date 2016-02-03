@@ -2,8 +2,6 @@ from collections import namedtuple
 
 from django import forms
 from django.core.exceptions import ValidationError
-from django.core.urlresolvers import reverse
-from django.utils.safestring import mark_safe
 from cms_blogger.widgets import ToggleWidget
 
 from .models import Profile, ProfileLink, ProfileGrid, SelectedProfile, ProfilePromoGrid
@@ -13,10 +11,6 @@ from .settings import (
 
 
 PromoDependant = namedtuple('PromoDependant', ['promo', 'remaining_profiles', 'deleted_profiles'])
-PROFILE_DEL_WARN = ("Deleting the profile(s): {profiles} would make the Promo Grid "
-                    "{promo} have less than {min_nr} profiles selected.")
-PROFILE_DEL_WARN_EXTRA = ("Please change the Promo Grid(s) "
-                          "and then try to delete these profile(s).")
 
 
 class ProfileForm(forms.ModelForm):
@@ -166,26 +160,6 @@ class ProfileFormSet(forms.models.BaseInlineFormSet):
 
         if created_invalid_promos:
             raise ValidationError("See each profile for information.")
-
-
-def _make_profile_delete_warn(promo_info):
-    def _format_profile_names(profiles):
-        return "<b>" + "</b>, <b>".join([
-            p.title if p.title else "'" + p.description[:10] + "..'"
-            for p in profiles]) + "</b>"
-
-    def _format_promo(promo):
-        title = promo.title or "with id:{}".format(promo.id)
-        return "<b>{}</b> on page <a href='{}' target='_blank'>{}</a>".format(
-            title,
-            reverse('admin:cms_page_change', args=[promo.page.id]),
-            promo.page.get_title() or promo.page.id
-        )
-
-    return mark_safe(PROFILE_DEL_WARN.format(
-        profiles=_format_profile_names(promo_info.deleted_profiles),
-        promo=_format_promo(promo_info.promo),
-        min_nr=HARD_MIN_PROMO_PROFILES))
 
 
 class ProfileGridForm(forms.ModelForm):
