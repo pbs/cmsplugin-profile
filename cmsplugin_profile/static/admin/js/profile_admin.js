@@ -310,14 +310,14 @@ ProfilePlugin.ProfileGridAdmin = function(config) {
             e.preventDefault();
 
             profile_prefix = $(this).data("profile-id-prefix");
-            $('#' + profile_prefix).hide();
-
+	    profile = $('#' + profile_prefix);
             delete_input = $('#id_' + profile_prefix + '-DELETE')[0];
-            if (delete_input === undefined) {
-                profile_div.remove();
-            } else {
-                delete_input.checked = true;
-            }
+            delete_input.checked = !delete_input.checked;
+	    if (delete_input.checked) {
+		profile.addClass("deleted");
+	    } else {
+		profile.removeClass("deleted");
+	    }
             clear_data_for_profile(profile_prefix);
             profile_deleted = true;
 
@@ -480,7 +480,7 @@ ProfilePlugin.ProfileGridAdmin = function(config) {
         $(document).off('click').on('click', 'body', function (e) {
             //did not click a popover toggle or popover
             if ($(e.target).data('rel') !== 'popover'
-                && $(e.target).parents('.popover.in').length === 0) { 
+                && $(e.target).parents('.popover.in').length === 0) {
                 $('[data-rel="popover"]').popover('hide');
             }
         });
@@ -493,14 +493,17 @@ ProfilePlugin.ProfileGridAdmin = function(config) {
     	    }
     	});
 
-    	$('[id^=id_profile_set-][id$=-DELETE]').prop('checked', false);
+    	$('[id^=id_profile_set-][id$=-DELETE]').each(function(i, obj) {
+	    if(obj.checked) {
+		$(obj).closest(".ui-widget").addClass("deleted");
+	    }
+	});
+        setLimiter();
+        attachEvents();
+        update_show_unsaved_warning();
+    }
 
-            setLimiter();
-            attachEvents();
-            update_show_unsaved_warning();
-        }
-
-        return {
+    return {
     	init: init
     };
 
