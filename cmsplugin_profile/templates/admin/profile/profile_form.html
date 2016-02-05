@@ -21,7 +21,9 @@
 		{% include "admin/profile/profile_form_field.html" with field=form.call_to_action_url %}
 		{% include "admin/profile/profile_form_field.html" with field=form.additional_links_label %}
 
-	<div style="display:none">{{ form.DELETE }}</div>
+	<div style="display:none">
+		<input id="id_{{ form.prefix }}-DELETE" name="{{ form.prefix }}-DELETE" type="checkbox">
+	</div>
 		{% for index, link in form.links %}
 			<div id="{{ form.links_prefix }}{{ empty_link_id}}container" class="profile-add-links">
   			<h4 class="header smaller lighter blue block">Link {{ index }}</h4>

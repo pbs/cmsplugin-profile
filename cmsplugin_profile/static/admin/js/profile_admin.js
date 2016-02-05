@@ -8,17 +8,11 @@ ProfilePlugin.ProfileGridAdmin = function(config) {
         initial_description,
         initial_show_title,
         profile_added,
-        profile_deleted,
         form_id,
         all_profiles_initial_data, // profile-prefix -> custom-profile-data
         all_profiles_changes_flag, // profile-prefix -> flag if profile has changes
         current_profile_value_before_edit, // input-id -> [input_type, saved_custom_data]
         save_rejected = config.save_rejected;
-
-    function clear_data_for_profile(profile_prefix) {
-        delete all_profiles_changes_flag[profile_prefix];
-        delete all_profiles_initial_data[profile_prefix];
-    }
 
     function update_changed_status_for_profile(profile_prefix) {
         var initial_data = all_profiles_initial_data[profile_prefix],
@@ -33,11 +27,11 @@ ProfilePlugin.ProfileGridAdmin = function(config) {
             current_description = $("#id_description").val(),
             current_show_title = $("#id_show_title_on_thumbnails").prop('checked'),
 
-            has_unsaved_changes = save_rejected || profile_added || profile_deleted ||
+            has_unsaved_changes = save_rejected || profile_added ||
                 current_title != initial_title ||
                 current_description != initial_description ||
                 current_show_title != initial_show_title ||
-                profiles_have_changes();
+            profiles_have_changes();
 
         $("#warning_unsaved").css('display', (has_unsaved_changes ? "block" : "none"));
     }
@@ -286,6 +280,13 @@ ProfilePlugin.ProfileGridAdmin = function(config) {
         });
     }
 
+    function assert_initial_values_are_saved(prefix) {
+        current_profile_value_before_edit = store_input_data(prefix);
+        if (all_profiles_initial_data[prefix] === undefined) {
+            all_profiles_initial_data[prefix] = current_profile_value_before_edit;
+        }
+    }
+
     //edit profile item
     function editProfileItem () {
         $(document).on('click', '.profile-item-actions .edit-profile-item', function(e) {
@@ -294,10 +295,7 @@ ProfilePlugin.ProfileGridAdmin = function(config) {
             $(this).closest('.grid-list').siblings('.overlay').addClass('visible');
 
             prefix = $(this).data("profile-id-prefix");
-            current_profile_value_before_edit = store_input_data(prefix);
-            if (all_profiles_initial_data[prefix] === undefined) {
-                all_profiles_initial_data[prefix] = current_profile_value_before_edit;
-            }
+	    assert_initial_values_are_saved(prefix);
 
             resizeIframe($('.visible'));
             setLimiter();
@@ -310,16 +308,16 @@ ProfilePlugin.ProfileGridAdmin = function(config) {
             e.preventDefault();
 
             profile_prefix = $(this).data("profile-id-prefix");
+	    assert_initial_values_are_saved(profile_prefix);
 	    profile = $('#' + profile_prefix);
             delete_input = $('#id_' + profile_prefix + '-DELETE')[0];
             delete_input.checked = !delete_input.checked;
 	    if (delete_input.checked) {
 		profile.addClass("deleted");
 	    } else {
-		profile.removeClass("deleted");
+		profile.removeClass("deleted").removeClass("has-error");
 	    }
-            clear_data_for_profile(profile_prefix);
-            profile_deleted = true;
+	    update_changed_status_for_profile(profile_prefix);
 
             update_show_unsaved_warning();
         });
@@ -454,7 +452,6 @@ ProfilePlugin.ProfileGridAdmin = function(config) {
         initial_description = $("#id_description").val(),
         initial_show_title = $("#id_show_title_on_thumbnails").prop('checked'),
         profile_added = false,
-        profile_deleted = false,
         form_id = $('#profilegrid_form'),
         all_profiles_initial_data = {}, // profile-prefix -> custom-profile-data
         all_profiles_changes_flag = {}, // profile-prefix -> flag if profile has changes
