@@ -315,7 +315,7 @@ ProfilePlugin.ProfileGridAdmin = function(config) {
 	    if (delete_input.checked) {
 		profile.addClass("deleted");
 	    } else {
-		profile.removeClass("deleted").removeClass("has-error");
+		profile.removeClass("deleted").removeClass("has-errors");
 	    }
 	    update_changed_status_for_profile(profile_prefix);
 
