@@ -135,7 +135,7 @@ fieldset.form-horizontal textarea {
 }
 /* line 129, ../sass/profile_admin.scss */
 #profile_set-group-grid .has-errors .profile-item-actions {
-  background: rgba(255, 0, 0, 0.7);
+  background: rgba(255, 0, 0, 0.7) !important;
 }
 /* line 132, ../sass/profile_admin.scss */
 #profile_set-group-grid .has-errors .profile-item-actions:after {
@@ -147,43 +147,59 @@ fieldset.form-horizontal textarea {
   width: 100%;
 }
 /* line 141, ../sass/profile_admin.scss */
+#profile_set-group-grid .deleted .profile-item-actions {
+  background: rgba(0, 0, 0, 0.5);
+}
+/* line 144, ../sass/profile_admin.scss */
+#profile_set-group-grid .deleted .profile-item-actions a.edit-profile-item {
+  display: none !important;
+}
+/* line 147, ../sass/profile_admin.scss */
+#profile_set-group-grid .deleted .profile-item-actions a.delete-profile-item {
+  opacity: 1 !important;
+}
+/* line 150, ../sass/profile_admin.scss */
+#profile_set-group-grid .deleted .profile-item-actions a.delete-profile-item .ace-icon:before {
+  content: "\f0e2";
+}
+/* line 155, ../sass/profile_admin.scss */
 #profile_set-group-grid .form-row {
   margin-bottom: 30px;
   overflow: hidden;
 }
-/* line 144, ../sass/profile_admin.scss */
+/* line 158, ../sass/profile_admin.scss */
 #profile_set-group-grid .form-row input[type="text"],
 #profile_set-group-grid .form-row textarea {
   width: 75%;
 }
-/* line 148, ../sass/profile_admin.scss */
+/* line 162, ../sass/profile_admin.scss */
 #profile_set-group-grid .form-row textarea {
   height: 145px;
 }
-/* line 151, ../sass/profile_admin.scss */
+/* line 165, ../sass/profile_admin.scss */
 #profile_set-group-grid .form-row br {
   display: none;
 }
-/* line 154, ../sass/profile_admin.scss */
+/* line 168, ../sass/profile_admin.scss */
 #profile_set-group-grid .form-row .helptext {
   font-size: 12px;
   font-style: italic;
   margin-bottom: 10px;
   color: #737373;
 }
-/* line 161, ../sass/profile_admin.scss */
+/* line 175, ../sass/profile_admin.scss */
 #profile_set-group-grid .form-row.profile-add-link-url input[type="text"] {
   width: 56%;
   margin-right: 1%;
   float: left;
 }
-/* line 166, ../sass/profile_admin.scss */
+/* line 180, ../sass/profile_admin.scss */
 #profile_set-group-grid .form-row.profile-add-link-url select {
   width: 18%;
   height: 34px;
   float: left;
 }
-/* line 173, ../sass/profile_admin.scss */
+/* line 187, ../sass/profile_admin.scss */
 #profile_set-group-grid .new-profile-form,
 #profile_set-group-grid .complete > div:not(.profile-item-actions) {
   border: none;
@@ -200,7 +216,7 @@ fieldset.form-horizontal textarea {
   -ms-transition: all 0.5s ease-in;
   transition: all 0.5s ease-in;
 }
-/* line 188, ../sass/profile_admin.scss */
+/* line 202, ../sass/profile_admin.scss */
 #profile_set-group-grid .new-profile-form.visible,
 #profile_set-group-grid .complete > div:not(.profile-item-actions).visible {
   z-index: 10;
@@ -214,25 +230,25 @@ fieldset.form-horizontal textarea {
   transition: all 0.7s ease-out;
 }
 
-/* line 202, ../sass/profile_admin.scss */
+/* line 216, ../sass/profile_admin.scss */
 .add-profile-link {
   margin: auto;
 }
 
-/* line 206, ../sass/profile_admin.scss */
+/* line 220, ../sass/profile_admin.scss */
 .profile-add-links {
   overflow: hidden;
 }
-/* line 208, ../sass/profile_admin.scss */
+/* line 222, ../sass/profile_admin.scss */
 .profile-add-links h4 {
   padding-left: 15px;
 }
-/* line 211, ../sass/profile_admin.scss */
+/* line 225, ../sass/profile_admin.scss */
 .profile-add-links hr {
   margin-top: 10px;
 }
 
-/* line 215, ../sass/profile_admin.scss */
+/* line 229, ../sass/profile_admin.scss */
 .limiterBox {
   border: none;
   background: none;
@@ -244,12 +260,12 @@ fieldset.form-horizontal textarea {
   margin-top: 3px;
   margin-left: 15px;
 }
-/* line 226, ../sass/profile_admin.scss */
+/* line 240, ../sass/profile_admin.scss */
 .limiterBox:after, .limiterBox:before {
   display: none;
 }
 
-/* line 230, ../sass/profile_admin.scss */
+/* line 244, ../sass/profile_admin.scss */
 .profile-image-panel {
   padding: 19px 0;
   margin: 20px 0;
@@ -263,28 +279,28 @@ fieldset.form-horizontal textarea {
   clear: both;
   position: relative;
 }
-/* line 242, ../sass/profile_admin.scss */
+/* line 256, ../sass/profile_admin.scss */
 .profile-image-panel .control-label {
   width: auto;
   padding-left: 0;
 }
-/* line 246, ../sass/profile_admin.scss */
+/* line 260, ../sass/profile_admin.scss */
 .profile-image-panel .form-row {
   margin-bottom: 0 !important;
   padding: 0 19px;
 }
-/* line 249, ../sass/profile_admin.scss */
+/* line 263, ../sass/profile_admin.scss */
 .profile-image-panel .form-row + .form-row {
   padding-top: 15px;
   border-top: 1px solid #e3e3e3;
   margin-top: 20px;
   margin-bottom: 20px !important;
 }
-/* line 256, ../sass/profile_admin.scss */
+/* line 270, ../sass/profile_admin.scss */
 .profile-image-panel .related-widget-wrapper {
   display: block;
 }
-/* line 258, ../sass/profile_admin.scss */
+/* line 272, ../sass/profile_admin.scss */
 .profile-image-panel .related-widget-wrapper > a:first-child,
 .profile-image-panel .related-widget-wrapper .no-image-preview {
   float: right;
@@ -293,42 +309,42 @@ fieldset.form-horizontal textarea {
   height: 200px;
   background: white;
 }
-/* line 267, ../sass/profile_admin.scss */
+/* line 281, ../sass/profile_admin.scss */
 .profile-image-panel .no-padding .no-image-preview {
   float: right;
   margin-top: -54px;
 }
-/* line 271, ../sass/profile_admin.scss */
+/* line 285, ../sass/profile_admin.scss */
 .profile-image-panel img.quiet:after {
   content: "test";
 }
-/* line 274, ../sass/profile_admin.scss */
+/* line 288, ../sass/profile_admin.scss */
 .profile-image-panel .no-image-preview {
   border: 1px solid #ddd;
   background: white;
   width: 200px;
   height: 200px;
 }
-/* line 279, ../sass/profile_admin.scss */
+/* line 293, ../sass/profile_admin.scss */
 .profile-image-panel .no-image-preview img.no-filer-image {
   visibility: hidden;
 }
-/* line 282, ../sass/profile_admin.scss */
+/* line 296, ../sass/profile_admin.scss */
 .profile-image-panel .no-image-preview span {
   display: none;
 }
 
-/* line 288, ../sass/profile_admin.scss */
+/* line 302, ../sass/profile_admin.scss */
 .grid-list .plugin-submit-row {
   padding-right: 20px;
 }
 
-/* line 291, ../sass/profile_admin.scss */
+/* line 305, ../sass/profile_admin.scss */
 .form-horizontal .form-group {
   margin-bottom: 30px;
 }
 
-/* line 299, ../sass/profile_admin.scss */
+/* line 313, ../sass/profile_admin.scss */
 .form-group.has-error .error,
 .form-row.has-error .error,
 .form-row.has-url-error .error {
@@ -340,7 +356,7 @@ fieldset.form-horizontal textarea {
   appearance: none;
   float: left;
 }
-/* line 308, ../sass/profile_admin.scss */
+/* line 322, ../sass/profile_admin.scss */
 .form-group.has-error .help-block.col-sm-reset:not(.help-block-url),
 .form-row.has-error .help-block.col-sm-reset:not(.help-block-url),
 .form-row.has-url-error .help-block.col-sm-reset:not(.help-block-url) {
@@ -351,7 +367,7 @@ fieldset.form-horizontal textarea {
   display: block !important;
   visibility: visible !important;
 }
-/* line 316, ../sass/profile_admin.scss */
+/* line 330, ../sass/profile_admin.scss */
 .form-group.has-error .col-sm-9:before,
 .form-row.has-error .col-sm-9:before,
 .form-row.has-url-error .col-sm-9:before {
@@ -367,25 +383,25 @@ fieldset.form-horizontal textarea {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-/* line 329, ../sass/profile_admin.scss */
+/* line 343, ../sass/profile_admin.scss */
 .form-group.has-error .col-sm-9,
 .form-row.has-error .col-sm-9,
 .form-row.has-url-error .col-sm-9 {
   position: relative;
 }
-/* line 332, ../sass/profile_admin.scss */
+/* line 346, ../sass/profile_admin.scss */
 .form-group.has-error .control-label,
 .form-row.has-error .control-label,
 .form-row.has-url-error .control-label {
   color: #a94442;
 }
 
-/* line 337, ../sass/profile_admin.scss */
+/* line 351, ../sass/profile_admin.scss */
 .form-row.has-url-error .help-block.col-sm-reset:not(.help-block-url) {
   display: none !important;
   visibility: hidden !important;
 }
-/* line 341, ../sass/profile_admin.scss */
+/* line 355, ../sass/profile_admin.scss */
 .form-row.has-url-error .help-block-url {
   color: #a94442 !important;
   float: left !important;
@@ -395,7 +411,7 @@ fieldset.form-horizontal textarea {
   visibility: visible !important;
 }
 
-/* line 351, ../sass/profile_admin.scss */
+/* line 365, ../sass/profile_admin.scss */
 .profile-add-link-url.has-url-error .col-sm-9:before {
   content: "\f06a";
   display: inline-block;
@@ -409,7 +425,7 @@ fieldset.form-horizontal textarea {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-/* line 364, ../sass/profile_admin.scss */
+/* line 378, ../sass/profile_admin.scss */
 .profile-add-link-url.has-url-error input[id$="url"] {
   border: solid 1px #a94442 !important;
   color: #a94442 !important;
@@ -420,11 +436,11 @@ fieldset.form-horizontal textarea {
   float: left;
 }
 
-/* line 375, ../sass/profile_admin.scss */
+/* line 389, ../sass/profile_admin.scss */
 .profile-image-panel.has-error {
   border: solid 1px #a94442 !important;
 }
-/* line 377, ../sass/profile_admin.scss */
+/* line 391, ../sass/profile_admin.scss */
 .profile-image-panel.has-error .help-block.col-sm-reset {
   position: absolute;
   right: -140px;
@@ -432,11 +448,11 @@ fieldset.form-horizontal textarea {
   visibility: visible !important;
 }
 
-/* line 386, ../sass/profile_admin.scss */
+/* line 400, ../sass/profile_admin.scss */
 #profile_set-group-grid .profile-item-actions {
   height: 100%;
 }
-/* line 389, ../sass/profile_admin.scss */
+/* line 403, ../sass/profile_admin.scss */
 #profile_set-group-grid .profile-item-actions .select-profile-item {
   width: 100%;
   height: 100%;
@@ -445,15 +461,15 @@ fieldset.form-horizontal textarea {
   opacity: 1;
   text-decoration: none;
 }
-/* line 397, ../sass/profile_admin.scss */
+/* line 411, ../sass/profile_admin.scss */
 #profile_set-group-grid .profile-item-actions .select-profile-item .ace-icon {
   display: none;
 }
-/* line 400, ../sass/profile_admin.scss */
+/* line 414, ../sass/profile_admin.scss */
 #profile_set-group-grid .profile-item-actions .select-profile-item.selected {
   border: 5px solid #ccc;
 }
-/* line 403, ../sass/profile_admin.scss */
+/* line 417, ../sass/profile_admin.scss */
 #profile_set-group-grid .profile-item-actions .select-profile-item.selected .ace-icon {
   display: inline-block;
   float: right;
@@ -462,31 +478,31 @@ fieldset.form-horizontal textarea {
   margin: 0;
   font-size: 30px;
 }
-/* line 412, ../sass/profile_admin.scss */
+/* line 426, ../sass/profile_admin.scss */
 #profile_set-group-grid .profile-item-actions .select-profile-item:not(.selected):hover {
   border: 5px solid #ccc;
 }
-/* line 415, ../sass/profile_admin.scss */
+/* line 429, ../sass/profile_admin.scss */
 #profile_set-group-grid .profile-item-actions .select-profile-item.disabled {
   background: rgba(0, 0, 0, 0.5) !important;
   cursor: not-allowed;
   border: none !important;
 }
 
-/* line 424, ../sass/profile_admin.scss */
+/* line 438, ../sass/profile_admin.scss */
 #profilepromogrid_form .field-profiles_field {
   display: none;
 }
-/* line 427, ../sass/profile_admin.scss */
+/* line 441, ../sass/profile_admin.scss */
 #profilepromogrid_form #warning_maximum_selection {
   margin-bottom: 0;
   margin-top: 15px;
 }
-/* line 431, ../sass/profile_admin.scss */
+/* line 445, ../sass/profile_admin.scss */
 #profilepromogrid_form .form-horizontal + .form-horizontal {
   display: none;
 }
-/* line 434, ../sass/profile_admin.scss */
+/* line 448, ../sass/profile_admin.scss */
 #profilepromogrid_form #warning_maximum_selection {
   display: none;
 }
