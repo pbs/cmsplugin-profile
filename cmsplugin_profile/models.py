@@ -47,8 +47,11 @@ class ProfileGrid(CMSPlugin):
             profile.save()
 
     def get_warning_on_delete(self):
+        promos = self.profilepromogrid_set.all()
+        if not promos:
+            return None
         return "Deleting this Profile Grid will also delete the Promo Grid(s): {}".format(
-            ", ".join([promo.short_info for promo in self.profilepromogrid_set.all()])
+            ", ".join([promo.short_info for promo in promos])
         )
 
 
