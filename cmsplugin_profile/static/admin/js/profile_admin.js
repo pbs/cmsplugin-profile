@@ -295,7 +295,7 @@ ProfilePlugin.ProfileGridAdmin = function(config) {
             $(this).closest('.grid-list').siblings('.overlay').addClass('visible');
 
             prefix = $(this).data("profile-id-prefix");
-	    assert_initial_values_are_saved(prefix);
+            assert_initial_values_are_saved(prefix);
 
             resizeIframe($('.visible'));
             setLimiter();
@@ -308,16 +308,16 @@ ProfilePlugin.ProfileGridAdmin = function(config) {
             e.preventDefault();
 
             profile_prefix = $(this).data("profile-id-prefix");
-	    assert_initial_values_are_saved(profile_prefix);
-	    profile = $('#' + profile_prefix);
+            assert_initial_values_are_saved(profile_prefix);
+            profile = $('#' + profile_prefix);
             delete_input = $('#id_' + profile_prefix + '-DELETE')[0];
             delete_input.checked = !delete_input.checked;
-	    if (delete_input.checked) {
-		profile.addClass("deleted");
-	    } else {
-		profile.removeClass("deleted").removeClass("has-errors");
-	    }
-	    update_changed_status_for_profile(profile_prefix);
+            if (delete_input.checked) {
+                profile.addClass("deleted");
+            } else {
+                profile.removeClass("deleted").removeClass("has-errors");
+            }
+            update_changed_status_for_profile(profile_prefix);
 
             update_show_unsaved_warning();
             resizeIframe($('.visible'));
@@ -457,8 +457,8 @@ ProfilePlugin.ProfileGridAdmin = function(config) {
         all_profiles_initial_data = {}, // profile-prefix -> custom-profile-data
         all_profiles_changes_flag = {}, // profile-prefix -> flag if profile has changes
         current_profile_value_before_edit = {}, // input-id -> [input_type, saved_custom_data]
-    	error_lists = $('.errorlist'),
-    	first_list = error_lists.first();
+        error_lists = $('.errorlist'),
+        first_list = error_lists.first();
 
 
         //make entire grid sortable
