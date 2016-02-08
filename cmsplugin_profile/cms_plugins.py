@@ -70,9 +70,12 @@ class ProfileGridPromoPlugin(CMSPluginBase):
             'fields': ('profiles_field', ),
             'description':
                 _(u"Profile entries can be selected to be featured in a Profile"
-                  " Promo plugin. You can select a maximum of {} minimum of {}"
-                  " entries to feature. Click on a thumbnail to add or remove"
-                  " it from the group of featured profiles."
+                " Grid Promo plugin. You may select a <strong>maximum of {}</strong>"
+                " and a <strong>minimum of {}</strong> entries to feature."
+                " Click on a thumbnail to add or remove it from the group of"
+                " featured profile entries. <br /><strong>Note:</strong> When profile"
+                " entries are removed from a linked Profile Grid, you will be"
+                " prompted to make relevant edits to this Profile Grid Promo plugin."
                   .format(MAX_PROMO_PROFILES, MIN_PROMO_PROFILES)),
         })
     )
