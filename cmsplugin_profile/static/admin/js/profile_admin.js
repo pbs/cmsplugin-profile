@@ -320,7 +320,7 @@ ProfilePlugin.ProfileGridAdmin = function(config) {
             update_changed_status_for_profile(profile_prefix);
 
             update_show_unsaved_warning();
-            resizeIframe($('.visible'));
+            resizeIframe($('.visible'), false);
         });
     }
 
