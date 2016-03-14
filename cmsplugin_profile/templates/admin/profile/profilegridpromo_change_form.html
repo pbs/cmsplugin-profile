@@ -13,11 +13,7 @@
 </div>
 <script type="text/javascript">
 (function($) {
-    var maximum_selection = {
-        {
-            adminform.form.maximum_selection
-        }
-    };
+    var maximum_selection = {{ adminform.form.maximum_selection }};
 
     $(document).ready(function() {
         var profileSelect = $("#id_profile_plugin"),
@@ -46,16 +42,8 @@
     });
 
     function show_profiles_warning(nr_profiles) {
-        var maximum_selection = {
-                {
-                    adminform.form.maximum_selection
-                }
-            },
-            minimum_selection = {
-                {
-                    adminform.form.minimum_selection
-                }
-            },
+        var maximum_selection = {{ adminform.form.maximum_selection }},
+            minimum_selection = {{ adminform.form.minimum_selection }},
             warn_div = $("#warning_maximum_selection"),
             all_profiles = $('#profile_set-group-grid').children().length;
 
