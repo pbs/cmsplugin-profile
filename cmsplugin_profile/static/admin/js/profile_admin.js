@@ -31,13 +31,13 @@ ProfilePlugin.ProfileGridAdmin = function(config) {
                 current_title != initial_title ||
                 current_description != initial_description ||
                 current_show_title != initial_show_title ||
-            profiles_have_changes();
+                profiles_have_changes();
 
         $("#warning_unsaved").css('display', (has_unsaved_changes ? "block" : "none"));
     }
 
     function isEmpty(field) {
-        return field.find('input[type="text"], textarea').val() == '' ? true : false;
+        return field.find('input[type="text"], textarea').val() === '' ? true : false;
     }
 
     function addErrorClass(field) {
@@ -64,13 +64,13 @@ ProfilePlugin.ProfileGridAdmin = function(config) {
     function checkValidLinks(form) {
         var valid = true;
 
-        form.find('.profile-add-links').each(function(){
+        form.find('.profile-add-links').each(function() {
             var self = $(this);
 
             // remove all error classes from all links
-            self.find('.form-row').each(function(){
+            self.find('.form-row').each(function() {
                 $(this).removeClass('mandatory has-error has-url-error')
-                    .find('input[type="text"]').removeClass('error');;
+                    .find('input[type="text"]').removeClass('error');
             });
             // if the input is not empty, we make it mandatory
             self.find('input[type="text"]').each(function() {
@@ -144,7 +144,7 @@ ProfilePlugin.ProfileGridAdmin = function(config) {
 
     function resizeIframe(toResizeTo, scrollToTop) {
         var insideIframe = (window.location != window.parent.location ? true : false);
-        scrollToTop = (scrollToTop == false) ? false : true;
+        scrollToTop = (scrollToTop === false) ? false : true;
 
         if (!insideIframe) {
             return;
@@ -167,7 +167,7 @@ ProfilePlugin.ProfileGridAdmin = function(config) {
                 scrollTop: $(window.frameElement).offset().top
             }, 'fast');
         }
-    };
+    }
 
     function store_input_data(prefix) {
         // Stores all the input data for a profile in a custom format.
@@ -185,7 +185,7 @@ ProfilePlugin.ProfileGridAdmin = function(config) {
             data[input.attr("id")] = [type, value];
         });
 
-	$('select[name^="' + prefix + '"]').each(function(index, e) {
+        $('select[name^="' + prefix + '"]').each(function(index, e) {
             input = $(this);
             data[input.attr("id")] = ["value", input.val()];
         });
@@ -215,7 +215,7 @@ ProfilePlugin.ProfileGridAdmin = function(config) {
                 element[0].checked = value;
             } else if (type === "image_html") {
                 html = value[0];
-                input_value = value[1]
+                input_value = value[1];
                 element.closest("div.profile-image-panel").html(html);
                 element = $("#" + key);
                 element[0].value = input_value;
@@ -274,7 +274,7 @@ ProfilePlugin.ProfileGridAdmin = function(config) {
     }
 
     //detect change on Show Title on Thumbnails field
-    function onChangeShowTitleOnThumbnail () {
+    function onChangeShowTitleOnThumbnail() {
         $(document).on("change", "#id_show_title_on_thumbnails", function(e) {
             update_show_unsaved_warning();
         });
@@ -282,13 +282,12 @@ ProfilePlugin.ProfileGridAdmin = function(config) {
 
     function assert_initial_values_are_saved(prefix) {
         current_profile_value_before_edit = store_input_data(prefix);
-        if (all_profiles_initial_data[prefix] === undefined) {
-            all_profiles_initial_data[prefix] = current_profile_value_before_edit;
-        }
+        all_profiles_initial_data[prefix] = all_profiles_initial_data[prefix] ||
+                                            current_profile_value_before_edit;
     }
 
     //edit profile item
-    function editProfileItem () {
+    function editProfileItem() {
         $(document).on('click', '.profile-item-actions .edit-profile-item', function(e) {
             e.preventDefault();
             $(this).parent('.profile-item-actions').siblings().addClass('visible').closest('.inline-related').addClass('edit-mode');
@@ -422,7 +421,7 @@ ProfilePlugin.ProfileGridAdmin = function(config) {
             prefix = link.attr("data-prefix");
             current = parseInt(link.attr("data-current"), 10);
             next_link = $("#" + prefix + current + "container");
-            if (next_link != undefined) {
+            if (next_link !== undefined) {
                 next_link.show();
                 link.attr("data-current", current + 1);
                 is_last_link = $("#" + prefix + (current + 1) + "container")[0] === undefined;
@@ -465,46 +464,43 @@ ProfilePlugin.ProfileGridAdmin = function(config) {
         $(".grid-list").sortable({
             items: "> .inline-related",
             cancel: ".edit-mode",
-            start: function( event, ui ) {
+            start: function(event, ui) {
                 $('[data-rel="popover"]').popover('hide');
             },
             update: function(event, ui) {
                 $('.order_field input').each(function(i) {
-                    $(this).attr('value', i + 1)
+                    $(this).attr('value', i + 1);
                 });
             }
         });
 
-        $(document).off('click').on('click', 'body', function (e) {
+        $(document).off('click').on('click', 'body', function(e) {
             //did not click a popover toggle or popover
-            if ($(e.target).data('rel') !== 'popover'
-                && $(e.target).parents('.popover.in').length === 0) {
+            if ($(e.target).data('rel') !== 'popover' && $(e.target).parents('.popover.in').length === 0) {
                 $('[data-rel="popover"]').popover('hide');
             }
         });
 
-    	// Add all errors to the first list
-    	error_lists.each(function(index) {
-    	    if (index > 0) {
-    		first_list.append($(this).html());
-    		$(this).html("");
-    	    }
-    	});
+        // Add all errors to the first list
+        error_lists.each(function(index) {
+            if (index > 0) {
+                first_list.append($(this).html());
+                $(this).html("");
+            }
+        });
 
-    	$('[id^=id_profile_set-][id$=-DELETE]').each(function(i, obj) {
-	    if(obj.checked) {
-		$(obj).closest(".ui-widget").addClass("deleted");
-	    }
-	});
+        $('[id^=id_profile_set-][id$=-DELETE]').each(function(i, obj) {
+            if (obj.checked) {
+                $(obj).closest(".ui-widget").addClass("deleted");
+            }
+        });
         setLimiter();
         attachEvents();
         update_show_unsaved_warning();
     }
 
     return {
-    	init: init
+        init: init
     };
-
-}
+};
 })(window, jQuery);
-
