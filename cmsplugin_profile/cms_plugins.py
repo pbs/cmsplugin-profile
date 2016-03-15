@@ -9,7 +9,7 @@ from .forms import (
     ProfileForm, ProfileFormSet, ProfileGridPromoForm, ProfileGridForm
 )
 from .models import Profile, ProfileGrid, ProfilePromoGrid
-from .settings import INITIAL_DISPLAYED_PROFILES, MAX_PROMO_PROFILES
+from .settings import INITIAL_DISPLAYED_PROFILES, MAX_PROMO_PROFILES, MIN_PROMO_PROFILES
 
 
 class ProfileInline(admin.options.InlineModelAdmin):
@@ -69,10 +69,14 @@ class ProfileGridPromoPlugin(CMSPluginBase):
         ("Featured Profiles", {
             'fields': ('profiles_field', ),
             'description':
-                _(u"{} profiles will be featured in this promo, marked by the"
-                  " border around the thumbnails. Click on a thumbnail to add"
-                  " or remove it from the group of featured profiles."
-                  .format(MAX_PROMO_PROFILES)),
+                _(u"Profile entries can be selected to be featured in a Profile"
+                " Grid Promo plugin. You may select a <strong>maximum of {}</strong>"
+                " and a <strong>minimum of {}</strong> entries to feature."
+                " Click on a thumbnail to add or remove it from the group of"
+                " featured profile entries. <br /><strong>Note:</strong> When profile"
+                " entries are removed from a linked Profile Grid, you will be"
+                " prompted to make relevant edits to this Profile Grid Promo plugin."
+                  .format(MAX_PROMO_PROFILES, MIN_PROMO_PROFILES)),
         })
     )
 

@@ -1,18 +1,18 @@
-(function($) {
+(function(window, $) {
+    if (typeof ProfilePlugin === 'undefined') {
+        window.ProfilePlugin = {};
+    }
+
+ProfilePlugin.ProfileGridAdmin = function(config) {
     var initial_title,
         initial_description,
         initial_show_title,
         profile_added,
-        profile_deleted,
         form_id,
         all_profiles_initial_data, // profile-prefix -> custom-profile-data
         all_profiles_changes_flag, // profile-prefix -> flag if profile has changes
-        current_profile_value_before_edit; // input-id -> [input_type, saved_custom_data]
-
-    function clear_data_for_profile(profile_prefix) {
-        delete all_profiles_changes_flag[profile_prefix];
-        delete all_profiles_initial_data[profile_prefix];
-    }
+        current_profile_value_before_edit, // input-id -> [input_type, saved_custom_data]
+        save_rejected = config.save_rejected;
 
     function update_changed_status_for_profile(profile_prefix) {
         var initial_data = all_profiles_initial_data[profile_prefix],
@@ -27,7 +27,7 @@
             current_description = $("#id_description").val(),
             current_show_title = $("#id_show_title_on_thumbnails").prop('checked'),
 
-            has_unsaved_changes = profile_added || profile_deleted ||
+            has_unsaved_changes = save_rejected || profile_added ||
                 current_title != initial_title ||
                 current_description != initial_description ||
                 current_show_title != initial_show_title ||
@@ -37,7 +37,7 @@
     }
 
     function isEmpty(field) {
-        return field.find('input[type="text"], textarea').val() == '' ? true : false;
+        return field.find('input[type="text"], textarea').val() === '' ? true : false;
     }
 
     function addErrorClass(field) {
@@ -64,13 +64,13 @@
     function checkValidLinks(form) {
         var valid = true;
 
-        form.find('.profile-add-links').each(function(){
+        form.find('.profile-add-links').each(function() {
             var self = $(this);
 
             // remove all error classes from all links
-            self.find('.form-row').each(function(){
+            self.find('.form-row').each(function() {
                 $(this).removeClass('mandatory has-error has-url-error')
-                    .find('input[type="text"]').removeClass('error');;
+                    .find('input[type="text"]').removeClass('error');
             });
             // if the input is not empty, we make it mandatory
             self.find('input[type="text"]').each(function() {
@@ -144,7 +144,7 @@
 
     function resizeIframe(toResizeTo, scrollToTop) {
         var insideIframe = (window.location != window.parent.location ? true : false);
-        scrollToTop = (scrollToTop == false) ? false : true;
+        scrollToTop = (scrollToTop === false) ? false : true;
 
         if (!insideIframe) {
             return;
@@ -167,7 +167,7 @@
                 scrollTop: $(window.frameElement).offset().top
             }, 'fast');
         }
-    };
+    }
 
     function store_input_data(prefix) {
         // Stores all the input data for a profile in a custom format.
@@ -185,7 +185,7 @@
             data[input.attr("id")] = [type, value];
         });
 
-	$('select[name^="' + prefix + '"]').each(function(index, e) {
+        $('select[name^="' + prefix + '"]').each(function(index, e) {
             input = $(this);
             data[input.attr("id")] = ["value", input.val()];
         });
@@ -215,7 +215,7 @@
                 element[0].checked = value;
             } else if (type === "image_html") {
                 html = value[0];
-                input_value = value[1]
+                input_value = value[1];
                 element.closest("div.profile-image-panel").html(html);
                 element = $("#" + key);
                 element[0].value = input_value;
@@ -274,24 +274,27 @@
     }
 
     //detect change on Show Title on Thumbnails field
-    function onChangeShowTitleOnThumbnail () {
+    function onChangeShowTitleOnThumbnail() {
         $(document).on("change", "#id_show_title_on_thumbnails", function(e) {
             update_show_unsaved_warning();
         });
     }
 
+    function assert_initial_values_are_saved(prefix) {
+        current_profile_value_before_edit = store_input_data(prefix);
+        all_profiles_initial_data[prefix] = all_profiles_initial_data[prefix] ||
+                                            current_profile_value_before_edit;
+    }
+
     //edit profile item
-    function editProfileItem () {
+    function editProfileItem() {
         $(document).on('click', '.profile-item-actions .edit-profile-item', function(e) {
             e.preventDefault();
             $(this).parent('.profile-item-actions').siblings().addClass('visible').closest('.inline-related').addClass('edit-mode');
             $(this).closest('.grid-list').siblings('.overlay').addClass('visible');
 
             prefix = $(this).data("profile-id-prefix");
-            current_profile_value_before_edit = store_input_data(prefix);
-            if (all_profiles_initial_data[prefix] === undefined) {
-                all_profiles_initial_data[prefix] = current_profile_value_before_edit;
-            }
+            assert_initial_values_are_saved(prefix);
 
             resizeIframe($('.visible'));
             setLimiter();
@@ -304,18 +307,19 @@
             e.preventDefault();
 
             profile_prefix = $(this).data("profile-id-prefix");
-            $('#' + profile_prefix).hide();
-
+            assert_initial_values_are_saved(profile_prefix);
+            profile = $('#' + profile_prefix);
             delete_input = $('#id_' + profile_prefix + '-DELETE')[0];
-            if (delete_input === undefined) {
-                profile_div.remove();
+            delete_input.checked = !delete_input.checked;
+            if (delete_input.checked) {
+                profile.addClass("deleted");
             } else {
-                delete_input.checked = true;
+                profile.removeClass("deleted").removeClass("has-errors");
             }
-            clear_data_for_profile(profile_prefix);
-            profile_deleted = true;
+            update_changed_status_for_profile(profile_prefix);
 
             update_show_unsaved_warning();
+            resizeIframe($('.visible'), false);
         });
     }
 
@@ -417,7 +421,7 @@
             prefix = link.attr("data-prefix");
             current = parseInt(link.attr("data-current"), 10);
             next_link = $("#" + prefix + current + "container");
-            if (next_link != undefined) {
+            if (next_link !== undefined) {
                 next_link.show();
                 link.attr("data-current", current + 1);
                 is_last_link = $("#" + prefix + (current + 1) + "container")[0] === undefined;
@@ -448,31 +452,55 @@
         initial_description = $("#id_description").val(),
         initial_show_title = $("#id_show_title_on_thumbnails").prop('checked'),
         profile_added = false,
-        profile_deleted = false,
         form_id = $('#profilegrid_form'),
         all_profiles_initial_data = {}, // profile-prefix -> custom-profile-data
         all_profiles_changes_flag = {}, // profile-prefix -> flag if profile has changes
-        current_profile_value_before_edit = {}; // input-id -> [input_type, saved_custom_data]
+        current_profile_value_before_edit = {}, // input-id -> [input_type, saved_custom_data]
+        error_lists = $('.errorlist'),
+        first_list = error_lists.first();
 
 
         //make entire grid sortable
         $(".grid-list").sortable({
             items: "> .inline-related",
             cancel: ".edit-mode",
+            start: function(event, ui) {
+                $('[data-rel="popover"]').popover('hide');
+            },
             update: function(event, ui) {
                 $('.order_field input').each(function(i) {
-                    $(this).attr('value', i + 1)
+                    $(this).attr('value', i + 1);
                 });
             }
         });
 
+        $(document).off('click').on('click', 'body', function(e) {
+            //did not click a popover toggle or popover
+            if ($(e.target).data('rel') !== 'popover' && $(e.target).parents('.popover.in').length === 0) {
+                $('[data-rel="popover"]').popover('hide');
+            }
+        });
+
+        // Add all errors to the first list
+        error_lists.each(function(index) {
+            if (index > 0) {
+                first_list.append($(this).html());
+                $(this).html("");
+            }
+        });
+
+        $('[id^=id_profile_set-][id$=-DELETE]').each(function(i, obj) {
+            if (obj.checked) {
+                $(obj).closest(".ui-widget").addClass("deleted");
+            }
+        });
         setLimiter();
         attachEvents();
-
+        update_show_unsaved_warning();
     }
 
-    $(document).ready(function() {
-        // init all functions
-        init();
-    });
-})(jQuery || django.jQuery);
+    return {
+        init: init
+    };
+};
+})(window, jQuery);

@@ -8,7 +8,9 @@
     font-weight: 300 !important;
     text-transform: capitalize;
 }
-
+.description strong {
+    color: #5B80B2;
+}
 .inline-group .header.block {
     margin-bottom: 20px !important;
 }
@@ -91,8 +93,72 @@ fieldset.form-horizontal textarea {
                 float: right;
             }
         }
+
+        .message-profile-item {
+            opacity: 0;
+            font-size: 13px;
+            position: relative;
+            bottom: -70px;
+            left: 6px;
+            background: rgba(0, 0, 0, 0.6);
+            width: auto;
+            padding: 5px 10px;
+            line-height: normal;
+            float: none;
+            display: inline-block;
+            color: white;
+            cursor: pointer;
+        }
+        .profile-errors {
+            a {
+                opacity: 1;
+                font-size: 13px;
+                width: auto;
+                line-height: normal;
+                text-decoration: underline;
+                background: none;
+                color: #31708f;
+                float: none;
+                height: auto;
+                text-align: left;
+                display: inline-block;
+                margin-top: -3px;
+            }
+        }
+
         & + div {
             margin: 20px 10px 0;
+        }
+    }
+    .has-errors .profile-item-actions {
+        background: rgba(169, 68, 66, 0.9) !important;
+        // background: rgba(235, 204, 209, 0.9) !important;
+
+        &:after {
+            content: "This item has errors.";
+            display: block;
+            text-align: center;
+            color: white;
+            text-shadow: 1px 1px 5px black;
+            z-index: 999;
+            width: 100%;
+        }
+        .message-profile-item {
+            opacity: 1;
+        }
+    }
+    .deleted .profile-item-actions {
+        background: rgba(0,0,0,0.5);
+
+        a.edit-profile-item {
+            display: none!important;
+        }
+        a.delete-profile-item {
+            opacity: 1 !important;
+            
+            .ace-icon:before {
+                content: "\f0e2";
+            }
         }
     }
     .form-row {

@@ -1,10 +1,37 @@
 {% with instance=form.instance %}
-<div class="ui-widget inline-related{% if forloop.last %} empty-form last-related{% endif %}{% if instance.thumbnail_image.url %} complete {%endif%}" id="{{ form.prefix }}{% if forloop.last %}-empty{% endif %}" {% if instance.thumbnail_image.url %}style="background: #efefef url('{{ instance.thumbnail_image.url }}') no-repeat center;background-size: contain;"{% endif %}>
+<div class="ui-widget inline-related{% if forloop.last %} empty-form last-related{% endif %}{% if instance.thumbnail_image.url %} complete {%endif%}{% if form.validation_errors.delete_alone or form.validation_errors.delete_with_other %} has-errors{% endif %}"
+	id="{{ form.prefix }}{% if forloop.last %}-empty{% endif %}" {% if instance.thumbnail_image.url %}style="background: #efefef url('{{ instance.thumbnail_image.url }}') no-repeat center;background-size: contain;"{% endif %}>
 	<div class="profile-item-actions">
 		<a class="edit-profile-item" data-profile-id-prefix="{{form.prefix}}" href="#"><span class="inline-edit ace-icon fa fa-pencil" unselectable="on"></span></a>
-		<a class="delete-profile-item" data-profile-id="{{instance.id}}"
-		data-profile-id-prefix="{{form.prefix}}" href="#">
-		<span class="inline-edit ace-icon fa fa-times" unselectable="on"></span>
+		<a class="delete-profile-item" data-profile-id="{{instance.id}}" data-profile-id-prefix="{{form.prefix}}" href="#"><span class="inline-edit ace-icon fa fa-times" unselectable="on"></span>
+		</a>
+		{% if form.validation_errors.delete_alone or form.validation_errors.delete_with_other %}
+		<span class="message-profile-item" data-profile-id="21" data-profile-id-prefix="profile_set-0" data-rel="popover" data-trigger="click" data-placement="auto"
+		data-content='<ul class="profile-errors list-unstyled">
+			{% if form.validation_errors.delete_alone %}
+				<li>Deleting profile would prevent the following Promo Grid(s) from displaying:
+					<ul>
+						{% for promo in form.validation_errors.delete_alone %}
+						<li>Go To:
+							<a href="{% url 'admin:cms_page_change' promo.page.id %}" target="_blank">{{ promo.short_info }}</a>
+						</li>
+						{% endfor %}
+					</ul>
+				</li>
+			{% endif %}
+			{% if form.validation_errors.delete_with_other %}
+				<li>Deleting profile (along with others) would prevent the following Promo Grid(s) from displaying:
+					<ul>
+						{% for promo in form.validation_errors.delete_with_other %}
+						<li>Go To:
+							<a href="{% url 'admin:cms_page_change' promo.page.id %}" target="_blank">{{ promo.short_info }}</a>
+						</li>
+						{% endfor %}
+					</ul>
+				</li>
+			{% endif %}
+		</ul>' data-original-title="" data-html="true" title="">Click to see details.</span>
+		{% endif %}
 	</a>
 	</div>
 	<div>
@@ -18,7 +45,13 @@
 		{% include "admin/profile/profile_form_field.html" with field=form.call_to_action_url %}
 		{% include "admin/profile/profile_form_field.html" with field=form.additional_links_label %}
 
-	<div style="display:none">{{ form.DELETE }}</div>
+	<div style="display:none">
+		{% if form.DELETE %}
+		{{ form.DELETE }}
+		{% else %}
+		<input id="id_{{ form.prefix }}-DELETE" name="{{ form.prefix }}-DELETE" type="checkbox">
+		{% endif %}
+	</div>
 		{% for index, link in form.links %}
 			<div id="{{ form.links_prefix }}{{ empty_link_id}}container" class="profile-add-links">
   			<h4 class="header smaller lighter blue block">Link {{ index }}</h4>

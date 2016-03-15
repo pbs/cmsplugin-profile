@@ -1,10 +1,17 @@
+from collections import namedtuple
+
 from django import forms
 from django.core.exceptions import ValidationError
-
 from cms_blogger.widgets import ToggleWidget
 
 from .models import Profile, ProfileLink, ProfileGrid, SelectedProfile, ProfilePromoGrid
-from .settings import MAX_PROFILE_LINKS, MAX_PROMO_PROFILES
+from .settings import (
+    MAX_PROFILE_LINKS, MIN_PROMO_PROFILES, MAX_PROMO_PROFILES, HARD_MIN_PROMO_PROFILES
+)
+
+
+PromoDependant = namedtuple(
+    'PromoDependant', ['promo', 'remaining_profiles', 'deleted_profiles', 'remains_invalid'])
 
 
 class ProfileForm(forms.ModelForm):
@@ -18,6 +25,12 @@ class ProfileForm(forms.ModelForm):
         super(ProfileForm, self).__init__(*args, **kwargs)
         self._customize_image_widgets()
         self._make_link_data()
+        # Data about validation errors. Computed on the formset but kept on
+        # the form instance for ease of display
+        self.validation_errors = {
+            'delete_with_other': [],
+            'delete_alone': [],
+        }
 
     def _customize_image_widgets(self):
         img_widgets = [self.fields['thumbnail_image'].widget, self.fields['detail_image'].widget]
@@ -109,6 +122,58 @@ class ProfileFormSet(forms.models.BaseInlineFormSet):
 
         return result
 
+    def clean(self):
+        cleaned_data = super(ProfileFormSet, self).clean()
+        self._validate_profile_deletion()
+        return cleaned_data
+
+    def _validate_profile_deletion(self):
+        """
+        Validate that deleting profiles would not make existing promo grids have to few elements.
+        """
+        if not self.deleted_forms:
+            return
+        invalid_promos = self._get_invalid_promos()
+        created_invalid_promos = False
+
+        for form in self.forms:
+            profile = form.instance
+            for dep in invalid_promos:
+                if profile in dep.deleted_profiles:
+                    created_invalid_promos = True
+                    error_type = ('delete_with_other' if len(dep.deleted_profiles) > 1
+                                  else 'delete_alone')
+                    form.validation_errors[error_type].append(dep.promo)
+
+        if created_invalid_promos:
+            raise ValidationError("See each profile for information.")
+
+    def _get_invalid_promos(self):
+        """
+        Return info about all promos that remain invalid after the current operation.
+        These promos could be already invalid.
+        """
+        dependent_promos = [
+            PromoDependant(
+                promo=promo,
+                remaining_profiles=[s.profile_id for s in promo.selectedprofile_set.all()],
+                deleted_profiles=[], remains_invalid=False)
+            for promo in self.instance.profilepromogrid_set.all()
+        ]
+
+        for deleted_form in self.deleted_forms:
+            profile = deleted_form.instance
+            for dep in dependent_promos:
+                if profile.id in dep.remaining_profiles:
+                    dep.remaining_profiles.remove(profile.id)
+                    dep.deleted_profiles.append(profile)
+
+        invalid_promos = [
+            dep for dep in dependent_promos
+            if len(dep.remaining_profiles) < HARD_MIN_PROMO_PROFILES
+        ]
+        return invalid_promos
+
 
 class ProfileGridForm(forms.ModelForm):
     show_title_on_thumbnails = forms.BooleanField(
@@ -182,6 +247,7 @@ class ProfileGridPromoForm(forms.ModelForm):
             self.selected_profiles = []
             self.all_profiles = []
         self.maximum_selection = MAX_PROMO_PROFILES
+        self.minimum_selection = MIN_PROMO_PROFILES
 
     def _get_changed_grid(self):
         if not self.request:
@@ -214,7 +280,20 @@ class ProfileGridPromoForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super(ProfileGridPromoForm, self).clean()
+        self._validate_profile_selection(cleaned_data)
         return cleaned_data
+
+    def _validate_profile_selection(self, cleaned_data):
+        selected_profiles = len(cleaned_data.get('profiles_field', []))
+        if selected_profiles < MIN_PROMO_PROFILES or selected_profiles > MAX_PROMO_PROFILES:
+            if MIN_PROMO_PROFILES == MAX_PROMO_PROFILES:
+                raise ValidationError(
+                    "You must select {} profiles. You have selected {}!"
+                    .format(MIN_PROMO_PROFILES, selected_profiles))
+            else:
+                raise ValidationError(
+                    "You must select between {} and {} profiles. You have selected {}!"
+                    .format(MIN_PROMO_PROFILES, MAX_PROMO_PROFILES, selected_profiles))
 
     def save(self, commit=True):
         self.instance.unsaved_selected_profiles = []
