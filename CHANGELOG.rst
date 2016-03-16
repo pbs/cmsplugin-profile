@@ -1,6 +1,45 @@
 CHANGELOG
 =========
 
+Revision dc23d63 (16.03.2016, 09:58 UTC)
+----------------------------------------
+
+* LUN-2825
+
+  * removed extra classes
+  * misspelled variables after prettify
+  * updates after code review
+  * removed scollingToTop at deletion of an item
+  * description texts updated, marked for deletion display updated
+  * new status: marked for deletion item
+  * tooltip updates
+  * grids items with errors styled
+  * profile promo message updated
+  * css fixes for 4 promo items
+  * fixed alignments between breakpoints + 4 on a row on Studio 2
+
+* LUN-2890
+
+  * Update profile grid delete warning message.
+  * Use spaces instead of tabs.
+  * Refactor validations.
+  * Resize iframe after deleting an item.
+  * Minor fixes.
+  * Update rendering and validation for new/deleted profiles.
+  * Do not remove deleted profiles from DOM, just mark them.
+  * Remove dead code.
+  * Draft for validation rework.
+  * Show "unsaved" message when submit fails.
+  * Update warnings.
+  * Adjust warning messages.
+  * Move formset errors to main error list.
+  * Reset deleted flag when errors are shown.
+  * Added validation that profile deletion does not break existing promos.
+  * Enforce profile selection for Promo Grid on the backend.
+  * Change validation to allow 3 or 4 profile selection in promo.
+
+No other commits.
+
 Revision c2183c9 (03.02.2016, 07:39 UTC)
 ----------------------------------------
 
