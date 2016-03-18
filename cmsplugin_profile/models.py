@@ -20,10 +20,15 @@ class ProfileGrid(CMSPlugin):
     load_mode_type = models.CharField(
         _("Pagination type"), max_length=20,
         choices=GRID_LOADING_TYPE_CHOICES,
-        help_text=_("Button loading will load more profiles when the user clicks the button."
-                    "Use this when the grid will be in a page with other elements. "
-                    "Scroll loaging will load more profiles when the user scrolls the page."
-                    "Use this when the grid will be alone on the page."),
+        help_text=_("There are two options for pagination type. "
+                    "The <strong>Load More Button</strong> will enable loading of more "
+                    "profiles entries when a user clicks on the Load More "
+                    "button. Best for pages where there are multiple "
+                    "components in the page content area. "
+                    "<strong>Lazy Loading</strong> will enable the page to automatically "
+                    "load more profiles as the user scrolls down the page. "
+                    "Best for pages where this grid is the only component in "
+                    "the page content area."),
         default=GRID_LOADING_TYPE_CHOICES[0])
 
     class Meta:
