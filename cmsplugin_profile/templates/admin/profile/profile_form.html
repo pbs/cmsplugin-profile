@@ -9,7 +9,7 @@
 		<span class="message-profile-item" data-profile-id="21" data-profile-id-prefix="profile_set-0" data-rel="popover" data-trigger="click" data-placement="auto"
 		data-content='<ul class="profile-errors list-unstyled">
 			{% if form.validation_errors.delete_alone %}
-				<li>Deleting profile would prevent the following Promo Grid(s) from displaying:
+				<li>Deleting profile would prevent the following Profile Promo Grid(s) from displaying:
 					<ul>
 						{% for promo in form.validation_errors.delete_alone %}
 						<li>Go To:
@@ -17,10 +17,11 @@
 						</li>
 						{% endfor %}
 					</ul>
+					<br />
 				</li>
 			{% endif %}
 			{% if form.validation_errors.delete_with_other %}
-				<li>Deleting profile (along with others) would prevent the following Promo Grid(s) from displaying:
+				<li>Deleting profile (along with others) would prevent the following Profile Promo Grid(s) from displaying:
 					<ul>
 						{% for promo in form.validation_errors.delete_with_other %}
 						<li>Go To:
