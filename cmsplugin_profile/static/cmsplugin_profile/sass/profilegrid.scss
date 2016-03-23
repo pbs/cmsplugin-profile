@@ -1,5 +1,8 @@
+@import "compass/css3";
+
 $namespace: ".pbs-profile-grid";
 $grid: ".og-grid";
+
 @mixin grid($g) {
     #{$g} {
         list-style: none;
@@ -361,6 +364,17 @@ $grid: ".og-grid";
                 box-shadow: 0 0 1px #ccc, 15px 30px 1px #efefef, -15px 30px 1px #ccc;
             }
         }
+    }
+    .og-profiles-loading {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: #efefef;
+        box-shadow: 0 0 1px #ccc, 15px 30px 1px #ccc, -15px 30px 1px #ccc;
+        margin: 0 auto 60px;
+        -webkit-animation: loader 0.5s infinite ease-in-out both;
+        -moz-animation: loader 0.5s infinite ease-in-out both;
+        animation: loader 0.5s infinite ease-in-out both;
     }
 }
 @mixin overides() {
@@ -876,19 +890,9 @@ $grid: ".og-grid";
             transition: all 0.3s ease-in-out;
 
         }
-    }
-
-    // Firefox fix only
-    @-moz-document url-prefix() {
-        @media (min-width: 1025px) {
-           .studio .span8.page-content .og-grid li,
-           body.tpl-station:not(.tpl-producer) .span8.page-content .og-grid li {
-                margin-right: 8px;
-           }
-           .studio .span8.page-content .og-grid li:nth-child(3n),
-           body.tpl-station:not(.tpl-producer) .span8.page-content .og-grid li:nth-child(3n) {
-            margin-right: 0;
-           }
+        &.disabled {
+            pointer-events: none;
+            @include user-select('none');
         }
     }
 }

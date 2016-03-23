@@ -15,7 +15,7 @@
     PBS.snippets = PBS.snippets || {};
 
     $(document).ready(function(){
-        var id = 'profile_grid{{ rnd }}' ;
+        var id = 'profile_grid{{ rnd }}';
 
         PBS.snippets[id] = new PBS.ProfileGrid({
             snippet: $('#' + id),
@@ -27,17 +27,23 @@
         }
 
         //Load more profiles
-        $('#og-additems').on( 'click', function(e) {
+        $('#og-additems').off('click').on( 'click', function(e) {
             e.preventDefault();
 
             var self = $(this),
                 hash = self.data('loadedpages') + 1;
-                url = '/cmsplugin_profile/{{profilegrid.id}}/view_profiles/?page='+ hash +'&max_results=12';
+                url = '/cmsplugin_profile/{{profilegrid.id}}/view_profiles/?page='+ hash +'&max_results=12',
+                loading = self.siblings('.og-profiles-loading');
             items = '';
+
+            self.addClass('disabled');
+            loading.show();
 
             jQuery.ajax({
                 url: url,
                 success: function(response) {
+                    loading.hide();
+
                     if (!response.has_more) {
                         self.remove();
                     }
@@ -77,7 +83,9 @@
                     PBS.snippets[id].addItems( items );
                     self.data().loadedpages++;
                     $(window).data('ajaxready', true);
-
+                },
+                complete: function(response) {
+                    self.removeClass('disabled');
                 },
                 error: function(response) {},
             });
@@ -116,6 +124,7 @@
             {% endfor %}
             </ul>
             {% if profiles|length > 12 %}
+                <div class="og-profiles-loading hide"></div>
                 {% if profilegrid.load_mode_type == 'load_mode_button' %}
                     <a id="og-additems" href="#" data-loadedpages="1">Load more</a>
                 {% else %}
@@ -146,7 +155,7 @@
                                 var button = $('#og-additems');
                                 // we set a buffer so that the user does not see the loading effect
                                 var bufferHeight = 300;
-                                
+
                                 if ( button.length ) {
 
                                     if (button.isOnScreen(bufferHeight)) {
