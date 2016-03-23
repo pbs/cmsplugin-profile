@@ -1,6 +1,22 @@
 CHANGELOG
 =========
 
+Revision f7455db (23.03.2016, 10:00 UTC)
+----------------------------------------
+
+* LUN-2890
+
+  * messages and help texts updated
+
+* LUN-2947
+
+  * add spinner when loading more profiles
+  * css reviewed on load more profile items
+
+* Misc commits
+
+  * removed spinner also when error
+
 Revision dc23d63 (16.03.2016, 09:58 UTC)
 ----------------------------------------
 
