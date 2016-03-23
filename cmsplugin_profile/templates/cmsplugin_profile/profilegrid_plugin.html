@@ -87,7 +87,9 @@
                 complete: function(response) {
                     self.removeClass('disabled');
                 },
-                error: function(response) {},
+                error: function(response) {
+                    loading.hide();
+                },
             });
         });
     });
