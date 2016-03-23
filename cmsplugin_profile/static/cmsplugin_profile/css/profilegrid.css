@@ -1304,9 +1304,9 @@ body:not(.studio) .span12.page-content .pbs-profile-grid .span8 {
   }
   /* line 1029, ../sass/profilegrid.scss */
   body.studio .span8.page-content .pbs-profile-promo .og-grid:not(.og-4-items) li, body.studio .span8.page-content .pbs-profile-promo .og-grid:not(.og-4-items) li > a {
-    width: 287px;
-    height: 287px;
-    line-height: 285px;
+    width: 286px;
+    height: 286px;
+    line-height: 284px;
   }
 }
 @media (min-width: 1280px) and (max-width: 1290px) {
@@ -1398,34 +1398,34 @@ body:not(.studio) .span12.page-content .pbs-profile-grid .span8 {
   }
 }
 @media (min-width: 961px) and (max-width: 1023px) {
-  /* line 1138, ../sass/profilegrid.scss */
-  body.studio .span12.page-content .pbs-profile-promo .og-grid li, body.studio .span12.page-content .pbs-profile-promo .og-grid li > a {
+  /* line 1137, ../sass/profilegrid.scss */
+  body.studio .span12.page-content .pbs-profile-promo .og-grid.og-4-items li, body.studio .span12.page-content .pbs-profile-promo .og-grid.og-4-items li > a {
     width: 214px;
     height: 214px;
     line-height: 212px;
   }
-  /* line 1143, ../sass/profilegrid.scss */
-  body.studio .span12.page-content .pbs-profile-promo .og-grid li {
+  /* line 1142, ../sass/profilegrid.scss */
+  body.studio .span12.page-content .pbs-profile-promo .og-grid.og-4-items li {
     margin-right: 12px;
   }
-  /* line 1146, ../sass/profilegrid.scss */
-  body.studio .span12.page-content .pbs-profile-promo .og-grid li:nth-child(4n) {
+  /* line 1145, ../sass/profilegrid.scss */
+  body.studio .span12.page-content .pbs-profile-promo .og-grid.og-4-items li:nth-child(4n) {
     margin-right: 0;
   }
 }
 @media (width: 960px) {
-  /* line 1152, ../sass/profilegrid.scss */
-  body.studio .span12.page-content .pbs-profile-promo .og-grid li, body.studio .span12.page-content .pbs-profile-promo .og-grid li > a {
+  /* line 1151, ../sass/profilegrid.scss */
+  body.studio .span12.page-content .pbs-profile-promo .og-grid.og-4-items li, body.studio .span12.page-content .pbs-profile-promo .og-grid.og-4-items li > a {
     width: 221px;
     height: 221px;
     line-height: 219px;
   }
-  /* line 1157, ../sass/profilegrid.scss */
-  body.studio .span12.page-content .pbs-profile-promo .og-grid li {
+  /* line 1156, ../sass/profilegrid.scss */
+  body.studio .span12.page-content .pbs-profile-promo .og-grid.og-4-items li {
     margin-right: 12px;
   }
-  /* line 1160, ../sass/profilegrid.scss */
-  body.studio .span12.page-content .pbs-profile-promo .og-grid li:nth-child(4n) {
+  /* line 1159, ../sass/profilegrid.scss */
+  body.studio .span12.page-content .pbs-profile-promo .og-grid.og-4-items li:nth-child(4n) {
     margin-right: 0;
   }
 }

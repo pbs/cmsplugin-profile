@@ -1027,9 +1027,9 @@ $grid: ".og-grid";
             .span8.page-content .pbs-profile-promo {
                 .og-grid:not(.og-4-items) {
                     li, li > a {
-                        width: 287px;
-                        height: 287px;
-                        line-height: 285px;
+                        width: 286px;
+                        height: 286px;
+                        line-height: 284px;
                     }
                 }
             }
@@ -1118,8 +1118,8 @@ $grid: ".og-grid";
         }
         .span12.page-content .pbs-profile-promo {
             .og-grid {
-                @media (min-width: 1024px) and (max-width: 1279px) {
-                    &.og-4-items {
+                &.og-4-items {
+                    @media (min-width: 1024px) and (max-width: 1279px) {
                         li, li > a {
                             width: 229px;
                             height: 229px;
@@ -1133,32 +1133,32 @@ $grid: ".og-grid";
                             }
                         }
                     }
-                }
-               @media (min-width: 961px) and (max-width: 1023px) {
-                    li, li > a {
-                        width: 214px;
-                        height: 214px;
-                        line-height: 212px;
-                    }
-                    li {
-                        margin-right: 12px;
+                   @media (min-width: 961px) and (max-width: 1023px) {
+                        li, li > a {
+                            width: 214px;
+                            height: 214px;
+                            line-height: 212px;
+                        }
+                        li {
+                            margin-right: 12px;
 
-                        &:nth-child(4n) {
-                            margin-right: 0;
+                            &:nth-child(4n) {
+                                margin-right: 0;
+                            }
                         }
                     }
-                }
-                @media (width: 960px) {
-                    li, li > a {
-                        width: 221px;
-                        height: 221px;
-                        line-height: 219px;
-                    }
-                    li {
-                        margin-right: 12px;
+                    @media (width: 960px) {
+                        li, li > a {
+                            width: 221px;
+                            height: 221px;
+                            line-height: 219px;
+                        }
+                        li {
+                            margin-right: 12px;
 
-                        &:nth-child(4n) {
-                            margin-right: 0;
+                            &:nth-child(4n) {
+                                margin-right: 0;
+                            }
                         }
                     }
                 }
