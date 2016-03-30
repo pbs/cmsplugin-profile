@@ -2,6 +2,7 @@
 dist
 *.egg-info
 *.egg
+.eggs
 build
 pytest-results.xml
 .tox
@@ -10,3 +11,5 @@ pytest-results.xml
 *~
 *.cache
 .sass-cache
+cmsplugin_profile/static/admin/css
+cmsplugin_profile/static/cmsplugin_profile/css

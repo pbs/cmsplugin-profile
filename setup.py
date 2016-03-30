@@ -28,4 +28,5 @@ setup(
         "django-cms-blogger >= 0.7.0.pbs, <0.8.0",
         "django-cms-roles < 0.7.1",
     ],
+    setup_requires=["setuptools-tasks"],
 )
