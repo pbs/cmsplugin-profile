@@ -1,6 +1,15 @@
 CHANGELOG
 =========
 
+Revision 4d53d70 (31.03.2016, 11:23 UTC)
+----------------------------------------
+
+* LUN-2951
+
+  * profile promo fixes for 3 promos
+
+No other commits.
+
 Revision f7455db (23.03.2016, 10:00 UTC)
 ----------------------------------------
 
