@@ -1,6 +1,15 @@
 CHANGELOG
 =========
 
+Revision e66659d (08.04.2016, 07:18 UTC)
+----------------------------------------
+
+* LUN-2894
+
+  * Use setuptools-tasks for compiling sass files before deploy.
+
+No other commits.
+
 Revision 4d53d70 (31.03.2016, 11:23 UTC)
 ----------------------------------------
 
