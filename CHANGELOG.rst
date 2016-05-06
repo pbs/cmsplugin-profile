@@ -1,6 +1,15 @@
 CHANGELOG
 =========
 
+Revision 8228234 (06.05.2016, 15:25 UTC)
+----------------------------------------
+
+* LUN-2954
+
+  * Change plugins to components.
+
+No other commits.
+
 Revision e66659d (08.04.2016, 07:18 UTC)
 ----------------------------------------
 
