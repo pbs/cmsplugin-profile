@@ -1,6 +1,15 @@
 CHANGELOG
 =========
 
+Revision ce5a8ae (06.11.2018, 13:20 UTC)
+----------------------------------------
+
+No new issues.
+
+* Misc commits
+
+  * Pin pytest 3.4.0 and pytest-django 3.1.2
+
 Revision 8228234 (06.05.2016, 15:25 UTC)
 ----------------------------------------
 
